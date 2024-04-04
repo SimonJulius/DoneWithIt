@@ -9,13 +9,22 @@ import {
 } from "react-native";
 import React from "react";
 import colors from "../configs/colors";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ViewImageScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.cta}>
-        <View style={styles.addNewImage}></View>
-        <View style={styles.deleteImage}></View>
+        <Pressable style={styles.addNewImage}>
+          <MaterialCommunityIcons name="close" size={30} color="white" />
+        </Pressable>
+        <Pressable style={styles.deleteImage}>
+          <MaterialCommunityIcons
+            name="trash-can-outline"
+            size={30}
+            color="white"
+          />
+        </Pressable>
       </View>
       <View style={styles.imageView}>
         <Image
@@ -35,22 +44,27 @@ const styles = StyleSheet.create({
   },
   cta: {
     flexDirection: "row",
-    marginTop: 50,
+    marginTop: 70,
     justifyContent: "space-between",
     paddingEnd: 20,
     paddingStart: 20,
   },
   deleteImage: {
-    width: 50,
-    height: 50,
-    backgroundColor: colors.secondary,
+    width: 35,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
   },
   addNewImage: {
-    width: 50,
-    height: 50,
-    backgroundColor: colors.primary,
+    width: 35,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  imageView: {},
+  imageView: {
+    height: "60%",
+    marginTop: 100,
+  },
   image: {
     width: "100%",
     height: "100%",

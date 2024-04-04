@@ -20,17 +20,7 @@ import ListingItem from "./app/components/items/ListingItem";
 export default function App() {
   return (
     <View style={styles.container}>
-      <ListingDetailScreen
-        image={require("./app/assets/images/jacket.jpg")}
-        title="Red jacket for sale!"
-        subtitle="100$"
-      >
-        <ListingItem
-          title="Simon Julius"
-          subtitle="4 Listings"
-          image={require("./app/assets/images/simon.jpg")}
-        />
-      </ListingDetailScreen>
+      <ViewImageScreen />
     </View>
   );
 }
