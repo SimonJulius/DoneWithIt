@@ -15,6 +15,7 @@ import AppButton from "./app/components/AppButton";
 import ListingCard from "./app/components/cards/ListingCard";
 import colors from "./app/configs/colors";
 import ListingDetailScreen from "./app/screens/ListingDetailScreen";
+import ListingItem from "./app/components/items/ListingItem";
 
 export default function App() {
   return (
@@ -23,7 +24,13 @@ export default function App() {
         image={require("./app/assets/images/jacket.jpg")}
         title="Red jacket for sale!"
         subtitle="100$"
-      ></ListingDetailScreen>
+      >
+        <ListingItem
+          title="Simon Julius"
+          subtitle="4 Listings"
+          image={require("./app/assets/images/simon.jpg")}
+        />
+      </ListingDetailScreen>
     </View>
   );
 }

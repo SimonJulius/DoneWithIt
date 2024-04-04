@@ -1,15 +1,14 @@
 import {
   Image,
-  ImageProps,
   ImageSourcePropType,
   ScrollView,
   StyleSheet,
-  Text,
   View,
   ViewProps,
 } from "react-native";
 import React from "react";
 import colors from "../configs/colors";
+import AppText from "../components/AppText";
 
 type ListingDetailProps = {
   image: ImageSourcePropType;
@@ -30,13 +29,11 @@ const ListingDetailScreen = ({
       <View style={styles.imageView}>
         <Image resizeMode="cover" source={image} style={styles.image} />
         <View style={styles.imageDetailView}>
-          <Text style={styles.detailsTitle}>{title}</Text>
-          <Text style={styles.detailsSubTitle}>{subtitle}</Text>
+          <AppText style={styles.detailsTitle}>{title}</AppText>
+          <AppText style={styles.detailsSubTitle}>{subtitle}</AppText>
         </View>
       </View>
-      <ScrollView>
-        <View>{children}</View>
-      </ScrollView>
+      <ScrollView style={styles.listingView}>{children}</ScrollView>
     </View>
   );
 };
@@ -46,6 +43,15 @@ export default ListingDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  detailsTitle: {
+    lineHeight: 25,
+    fontSize: 20,
+  },
+  detailsSubTitle: {
+    color: colors.secondary,
+    fontSize: 20,
+    marginTop: 10,
   },
   imageView: {
     height: 400,
@@ -59,13 +65,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
-  detailsTitle: {
-    lineHeight: 25,
-    fontSize: 20,
-  },
-  detailsSubTitle: {
-    color: colors.secondary,
-    fontSize: 20,
-    marginTop: 10,
+  listingView: {
+    paddingHorizontal: 20,
+    paddingTop: 30,
   },
 });
