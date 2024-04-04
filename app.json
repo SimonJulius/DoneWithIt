@@ -3,28 +3,51 @@
     "name": "DoneWithIt",
     "slug": "DoneWithIt",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "orientation": "default",
+    "icon": "./app/assets/icons/bitmaps/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./app/assets/icons/bitmaps/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "DoneWithIt"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/icons/bitmaps/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.davinci_sbj.DoneWithIt"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./app/assets/icons/bitmaps/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f94a5305-0ce8-4204-b0bf-7906c34b7e00"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f94a5305-0ce8-4204-b0bf-7906c34b7e00"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./app/assets/fonts/Poppins-Regular.ttf",
+            "./app/assets/fonts/Poppins-Bold.ttf",
+            "./app/assets/fonts/Poppins-ExtraBoldItalic.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }
