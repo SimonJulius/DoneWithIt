@@ -9,20 +9,14 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import ViewImageScreen from "./app/screens/ViewImageScreen";
-import AppButton from "./app/components/AppButton";
-import ListingCard from "./app/components/cards/ListingCard";
+import ListMenuItem from "./app/components/items/ListMenuItem";
 import colors from "./app/configs/colors";
-import ListingDetailScreen from "./app/screens/ListingDetailScreen";
-import ListingItem from "./app/components/items/ListingItem";
+import AppSafeView from "./app/components/AppSafeView";
+import MyAccountScreen from "./app/screens/MyAccountScreen";
+import ListingScreen from "./app/screens/ListingScreen";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <ViewImageScreen />
-    </View>
-  );
+  return <ListingScreen></ListingScreen>;
 }
 
 const styles = StyleSheet.create({

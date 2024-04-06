@@ -19,9 +19,9 @@ type ListingItemTypeProps = {
 
 type ListingItemProps = ViewProps & ImageProps & ListingItemTypeProps;
 
-const ListingItem = ({ title, subtitle, image }: ListingItemProps) => {
+const ListingItem = ({ title, subtitle, image, style }: ListingItemProps) => {
   return (
-    <View style={styles.listingItemContainer}>
+    <View style={StyleSheet.compose(style, styles.listingItemContainer)}>
       <Image
         style={styles.listingItemImage}
         resizeMode="cover"
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
+    padding: 15,
   },
   listingItemImage: {
     width: 70,
