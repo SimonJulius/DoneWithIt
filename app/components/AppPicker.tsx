@@ -1,27 +1,98 @@
-import { StyleSheet, TextProps, View, ViewProps } from "react-native";
-import React, { ReactNode } from "react";
+import {
+  FlatList,
+  FlatListProps,
+  Modal,
+  ModalProps,
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  TextProps,
+  TouchableHighlight,
+  View,
+  ViewProps,
+} from "react-native";
+import React, { ReactNode, useCallback, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
 import colors from "../configs/colors";
+import AppSafeView from "./AppSafeView";
 
-type AppTextProps = {
-  selected?: string;
+interface AppPickerData {
+  id: string;
+  label: string;
+  description: string;
+}
+
+type Items = string | AppPickerData;
+
+type AppPickerProps = {
+  placeholder?: string;
 } & TextProps &
-  ViewProps;
+  Pick<PressableProps, "onPress"> &
+  ModalProps &
+  Pick<FlatListProps<Items>, "data" | "keyExtractor">;
 
-const AppPicker = ({ selected }: AppTextProps) => {
+const AppPicker = ({
+  placeholder,
+  animationType,
+  data,
+  keyExtractor,
+  ...restProps
+}: AppPickerProps) => {
+  const [showList, setShowList] = useState(false);
+
+  const handleComponentClick = useCallback(() => {
+    setShowList(true);
+  }, [setShowList]);
+
+  const [selectedItem, setSelectedItem] = useState<Items>("");
+
+  const handItemSelection = (item: Items) => {
+    setSelectedItem(item);
+    setShowList(false);
+  };
   return (
-    <View style={styles.container}>
-      <MaterialCommunityIcons name="apps" size={20} color={colors.gray} />
-      <AppText>{selected}</AppText>
-      <MaterialCommunityIcons
-        name="chevron-down"
-        size={20}
-        color={colors.gray}
-        style={styles.cheveron}
-      />
-    </View>
+    <>
+      <Pressable
+        style={styles.container}
+        {...restProps}
+        onPress={handleComponentClick}
+      >
+        <MaterialCommunityIcons name="apps" size={20} color={colors.gray} />
+        <AppText style={styles.selectedItem}>
+          {!!selectedItem
+            ? typeof selectedItem === "string"
+              ? selectedItem
+              : selectedItem.label
+            : placeholder}
+        </AppText>
+        <MaterialCommunityIcons
+          name="chevron-down"
+          size={20}
+          color={colors.gray}
+          style={styles.cheveron}
+        />
+      </Pressable>
+      <Modal animationType={animationType} visible={showList}>
+        <AppSafeView>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => (
+              <TouchableHighlight
+                onPress={() => handItemSelection(item)}
+                underlayColor={colors.light}
+              >
+                <AppText style={styles.listItemStyle}>
+                  {typeof item === "string" ? item : item.label}
+                </AppText>
+              </TouchableHighlight>
+            )}
+            keyExtractor={keyExtractor}
+          />
+        </AppSafeView>
+      </Modal>
+    </>
   );
 };
 
@@ -40,5 +111,12 @@ const styles = StyleSheet.create({
 
   cheveron: {
     marginLeft: "auto",
+  },
+
+  listItemStyle: {
+    padding: 20,
+  },
+  selectedItem: {
+    paddingHorizontal: 5,
   },
 });

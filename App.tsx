@@ -18,26 +18,12 @@ import AppPicker from "./app/components/AppPicker";
 import AppTextInput from "./app/components/AppTextInput";
 import { useState } from "react";
 import AppText from "./app/components/AppText";
+import LoginScreen from "./app/screens/LoginScreen";
 
 export default function App() {
   const [textInput, setTextInput] = useState("");
-  return (
-    <AppSafeView>
-      <View>
-        <AppPicker></AppPicker>
-        <AppTextInput
-          iconSize={20}
-          leftIconName="form-textbox-password"
-          rightIconName="key"
-          placeholder="Password"
-          style={styles.textInput}
-          onChangeText={(text) => setTextInput(text)}
-        />
-      </View>
-
-      <AppText>{textInput}</AppText>
-    </AppSafeView>
-  );
+  const data = ["snjf", "ekfj"];
+  return <LoginScreen></LoginScreen>;
 }
 
 const styles = StyleSheet.create({

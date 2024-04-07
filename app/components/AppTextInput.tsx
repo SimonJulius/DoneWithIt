@@ -5,7 +5,7 @@ import {
   View,
   ViewProps,
 } from "react-native";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../configs/colors";
@@ -15,6 +15,8 @@ type AppTextProps = {
   rightIconName?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
   iconSize?: number;
   placeholder?: string;
+  marginBottom?: number;
+  marginTop?: number;
 } & TextInputProps &
   ViewProps;
 
@@ -23,11 +25,19 @@ const AppTextInput = ({
   leftIconName,
   iconSize,
   placeholder,
+  marginBottom,
+  marginTop,
   style,
   ...otherProps
 }: AppTextProps) => {
+  const marginStylings = useMemo(() => {
+    return {
+      marginTop,
+      marginBottom,
+    };
+  }, [marginBottom, marginTop]);
   return (
-    <View style={StyleSheet.compose(styles.container, style)}>
+    <View style={[styles.container, style, marginStylings]}>
       {leftIconName && (
         <MaterialCommunityIcons
           name={leftIconName}

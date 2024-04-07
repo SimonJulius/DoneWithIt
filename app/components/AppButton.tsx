@@ -7,12 +7,11 @@ import {
   DimensionValue,
   TextStyle,
 } from "react-native";
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 import AppText from "./AppText";
-import colors from "../configs/colors";
+import colors, { AppColorsProperties } from "../configs/colors";
 
 type ButtonVariant = "solid" | "outline";
-
 type ButtonColor = "primary" | "secondary";
 
 type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -24,12 +23,31 @@ type VariantProps = {
   color?: ButtonColor;
   size?: ButtonSize;
   shape?: ButtonShape;
+  title?: string;
 };
 type ButtonProps = PressableProps & VariantProps;
 
 const flattenStyles = StyleSheet.flatten;
 
-export default function AppButton({ children, size, color }: ButtonProps) {
+export default function AppButton({
+  children,
+  size,
+  color,
+  title,
+  onPressIn,
+  onPressOut,
+  ...restProps
+}: ButtonProps) {
+  const [pressed, setPressed] = useState(false);
+
+  const handlePressedIn = () => {
+    setPressed(true);
+    console.log(pressed);
+  };
+  const handlePressedOut = () => {
+    setPressed(false);
+    console.log(pressed);
+  };
   const { buttonViewStyles, buttonTextStyle } = useMemo(() => {
     const buttonViewStyles: ViewStyle[] = [];
     const buttonTextStyle: TextStyle[] = [];
@@ -45,20 +63,33 @@ export default function AppButton({ children, size, color }: ButtonProps) {
         fontWeight: "600",
       });
     }
-    if (color === "primary" || "secondary") {
+    if (color === colors.primary || color === colors.secondary) {
       buttonTextStyle.push({ color: colors.white });
     }
-
     buttonViewStyles.push({
       backgroundColor: colors[color!],
     });
-    return { buttonViewStyles, buttonTextStyle };
-  }, [size, color]);
+
+    if ((color = "primary")) {
+      buttonViewStyles.push({
+        backgroundColor: pressed ? colors.primary100 : colors.primary,
+      });
+    }
+
+    return { buttonTextStyle, buttonViewStyles };
+  }, [size, color, pressed]);
   return (
     <View style={[flattenStyles(buttonViewStyles)]}>
-      <Pressable style={styles.pressableStyles}>
+      <Pressable
+        onPressIn={handlePressedIn}
+        onPressOut={handlePressedOut}
+        style={styles.pressableStyles}
+        {...restProps}
+      >
         <AppText style={[flattenStyles(buttonTextStyle)]}>
-          {typeof children === "string"
+          {title
+            ? title
+            : typeof children === "string"
             ? children.toLocaleUpperCase()
             : (children as ReactNode)}
         </AppText>
