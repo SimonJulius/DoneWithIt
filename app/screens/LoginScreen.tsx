@@ -1,53 +1,56 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { GestureResponderEvent, Image, StyleSheet } from "react-native";
+import React from "react";
 import AppSafeView from "../components/AppSafeView";
-import AppTextInput from "../components/AppTextInput";
-import AppButton from "../components/AppButton";
+import * as Yup from "yup";
+import { AppFormField, SubmitButton, AppForm } from "../components/forms";
+
+const loginSchema = Yup.object({
+  email: Yup.string().email().required().label("Email"),
+  password: Yup.string().required().min(5).label("Password"),
+});
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleEmailChange = (email: string) => {
-    setEmail(email);
-  };
-  const handlePasswordChange = (email: string) => {
-    setPassword(email);
-  };
   return (
     <AppSafeView>
-      <Image
-        style={styles.logo}
-        source={require("../assets/icons/bitmaps/logo-red.png")}
-      />
-      <AppTextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        leftIconName="email"
-        iconSize={20}
-        keyboardType="email-address"
-        placeholder="Email"
-        textContentType="emailAddress"
-        marginBottom={20}
-        onChangeText={handleEmailChange}
-      />
-      <AppTextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        leftIconName="lock"
-        iconSize={20}
-        placeholder="Password"
-        textContentType="password"
-        marginBottom={20}
-        secureTextEntry
-        onChangeText={handlePasswordChange}
-      />
-      <AppButton
-        title="Login"
-        onPress={() => console.log({ email, password })}
-        size="md"
-        color="primary"
-      />
+      <AppForm
+        initialValues={{ email: "", password: "" }}
+        onSubmit={(value) => console.log(value)}
+        validationSchema={loginSchema}
+      >
+        <Image
+          style={styles.logo}
+          source={require("../assets/icons/bitmaps/logo-red.png")}
+        />
+
+        <AppFormField
+          name="email"
+          autoCapitalize="none"
+          autoCorrect={false}
+          leftIconName="email"
+          iconSize={20}
+          placeholder="Email"
+          textContentType="emailAddress"
+          marginTop={20}
+        />
+        <AppFormField
+          name="password"
+          autoCapitalize="none"
+          autoCorrect={false}
+          leftIconName="lock"
+          iconSize={20}
+          placeholder="Password"
+          textContentType="password"
+          marginTop={20}
+          secureTextEntry
+        />
+
+        <SubmitButton
+          style={styles.submitButton}
+          label={"Login"}
+          size="md"
+          color="primary"
+        />
+      </AppForm>
     </AppSafeView>
   );
 };
@@ -61,5 +64,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     marginTop: 50,
+  },
+  submitButton: {
+    marginTop: 20,
   },
 });

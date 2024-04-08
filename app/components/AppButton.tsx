@@ -6,6 +6,7 @@ import {
   ViewStyle,
   DimensionValue,
   TextStyle,
+  ViewProps,
 } from "react-native";
 import React, { ReactNode, useMemo, useState } from "react";
 import AppText from "./AppText";
@@ -25,7 +26,7 @@ type VariantProps = {
   shape?: ButtonShape;
   title?: string;
 };
-type ButtonProps = PressableProps & VariantProps;
+export type ButtonProps = PressableProps & VariantProps & ViewProps;
 
 const flattenStyles = StyleSheet.flatten;
 
@@ -36,6 +37,7 @@ export default function AppButton({
   title,
   onPressIn,
   onPressOut,
+  style,
   ...restProps
 }: ButtonProps) {
   const [pressed, setPressed] = useState(false);
@@ -46,7 +48,6 @@ export default function AppButton({
   };
   const handlePressedOut = () => {
     setPressed(false);
-    console.log(pressed);
   };
   const { buttonViewStyles, buttonTextStyle } = useMemo(() => {
     const buttonViewStyles: ViewStyle[] = [];
@@ -63,14 +64,15 @@ export default function AppButton({
         fontWeight: "600",
       });
     }
-    if (color === colors.primary || color === colors.secondary) {
+    console.log("yeeeeeeh!");
+    if (color === "primary" || color === "secondary") {
       buttonTextStyle.push({ color: colors.white });
     }
     buttonViewStyles.push({
       backgroundColor: colors[color!],
     });
 
-    if ((color = "primary")) {
+    if (color === "primary") {
       buttonViewStyles.push({
         backgroundColor: pressed ? colors.primary100 : colors.primary,
       });
@@ -79,7 +81,7 @@ export default function AppButton({
     return { buttonTextStyle, buttonViewStyles };
   }, [size, color, pressed]);
   return (
-    <View style={[flattenStyles(buttonViewStyles)]}>
+    <View style={[style, flattenStyles(buttonViewStyles)]}>
       <Pressable
         onPressIn={handlePressedIn}
         onPressOut={handlePressedOut}

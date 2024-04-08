@@ -8,9 +8,9 @@ import {
 import React, { ReactNode, useMemo } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import colors from "../configs/colors";
+import colors from "../../configs/colors";
 
-type AppTextProps = {
+export type AppTextProps = {
   leftIconName?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
   rightIconName?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
   iconSize?: number;
