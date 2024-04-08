@@ -1,20 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import AppTextInput, { AppTextProps } from "../AppTextInput";
 import ErrorMessageText from "./ErrorMessageText";
 import { useFormikContext } from "formik";
+import AppPicker, { AppPickerProps } from "../AppPicker";
 
-interface AppFormFiedProps extends AppTextProps {
+interface AppFormFiedProps extends AppPickerProps {
   name: string;
 }
 const AppFormField = ({ name, ...restProps }: AppFormFiedProps) => {
-  const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
+  const { setFieldValue, setFieldTouched, touched, errors, values } =
+    useFormikContext();
   return (
     <>
-      <AppTextInput
+      <AppPicker
         {...restProps}
         onBlur={() => setFieldTouched(name)}
-        onChangeText={handleChange(name)}
+        onSelect={(item) => setFieldValue(name, item)}
       />
       <ErrorMessageText
         errorMessage={errors[name as keyof {}]}

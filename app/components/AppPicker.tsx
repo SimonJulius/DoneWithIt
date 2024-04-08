@@ -8,17 +8,15 @@ import {
   StyleSheet,
   TextProps,
   TouchableHighlight,
-  View,
-  ViewProps,
 } from "react-native";
-import React, { ReactNode, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
 import colors from "../configs/colors";
 import AppSafeView from "./AppSafeView";
 
-interface AppPickerData {
+export interface AppPickerData {
   id: string;
   label: string;
   description: string;
@@ -26,10 +24,12 @@ interface AppPickerData {
 
 type Items = string | AppPickerData;
 
-type AppPickerProps = {
+export type AppPickerProps = {
   placeholder?: string;
+  showIconRight?: string;
+  onSelect?: (item: AppPickerData | string) => void;
 } & TextProps &
-  Pick<PressableProps, "onPress"> &
+  Pick<PressableProps, "onPress" | "onBlur"> &
   ModalProps &
   Pick<FlatListProps<Items>, "data" | "keyExtractor">;
 
@@ -38,6 +38,9 @@ const AppPicker = ({
   animationType,
   data,
   keyExtractor,
+  style,
+  showIconRight,
+  onSelect,
   ...restProps
 }: AppPickerProps) => {
   const [showList, setShowList] = useState(false);
@@ -51,16 +54,27 @@ const AppPicker = ({
   const handItemSelection = (item: Items) => {
     setSelectedItem(item);
     setShowList(false);
+    onSelect!(item);
   };
   return (
     <>
       <Pressable
-        style={styles.container}
+        style={[styles.container, style]}
         {...restProps}
         onPress={handleComponentClick}
       >
-        <MaterialCommunityIcons name="apps" size={20} color={colors.gray} />
-        <AppText style={styles.selectedItem}>
+        {showIconRight && (
+          <MaterialCommunityIcons name="apps" size={20} color={colors.gray} />
+        )}
+        <AppText
+          style={
+            (styles.selectedItem,
+            {
+              color:
+                placeholder && !selectedItem ? colors.lightGray : colors.black,
+            })
+          }
+        >
           {!!selectedItem
             ? typeof selectedItem === "string"
               ? selectedItem
@@ -76,6 +90,16 @@ const AppPicker = ({
       </Pressable>
       <Modal animationType={animationType} visible={showList}>
         <AppSafeView>
+          <MaterialCommunityIcons
+            onPress={() => setShowList(false)}
+            name="close"
+            size={20}
+            color={colors.gray}
+            style={{
+              alignSelf: "flex-end",
+              marginTop: 20,
+            }}
+          />
           <FlatList
             data={data}
             renderItem={({ item }) => (

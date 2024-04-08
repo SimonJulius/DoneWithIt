@@ -8,7 +8,7 @@ import {
 import React, { ReactNode, useMemo } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import colors from "../../configs/colors";
+import colors from "../configs/colors";
 
 export type AppTextProps = {
   leftIconName?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -47,6 +47,7 @@ const AppTextInput = ({
       )}
       <TextInput
         placeholder={placeholder}
+        placeholderTextColor={colors.lightGray}
         style={styles.textInput}
         {...otherProps}
       >

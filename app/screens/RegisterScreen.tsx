@@ -57,7 +57,7 @@ const LoginScreen = () => {
 
         <SubmitButton
           style={styles.submitButton}
-          label={"Login"}
+          label={"Register"}
           size="md"
           color="primary"
         />

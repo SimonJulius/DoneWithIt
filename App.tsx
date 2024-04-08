@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 
-import LoginScreen from "./app/screens/LoginScreen";
+import ListingEditScreen from "./app/screens/ListingEditScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 
 export default function App() {
-  return <RegisterScreen></RegisterScreen>;
+  return <ListingEditScreen></ListingEditScreen>;
 }
 
 const styles = StyleSheet.create({

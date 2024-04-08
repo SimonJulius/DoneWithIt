@@ -3,7 +3,7 @@ import React from "react";
 import ListingCard from "../components/cards/ListingCard";
 import AppSafeView from "../components/AppSafeView";
 import colors from "../configs/colors";
-import AppListSeparator from "../components/AppListSeparator";
+import AppListSeparator from "../components/lists/ListItemSeparator";
 
 const itemsToBeSold = [
   {

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { ComponentProps } from "react";
-import colors from "../configs/colors";
+import colors from "../../configs/colors";
 
 type SeperatorProps = {
   seperatorHeight?: number;

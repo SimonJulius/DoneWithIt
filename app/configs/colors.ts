@@ -8,6 +8,7 @@ export interface AppColorsProperties {
   danger: string;
   yellow: string;
   primary100: string;
+  lightGray: string;
 }
 
 const AppColors: AppColorsProperties = {
@@ -18,6 +19,7 @@ const AppColors: AppColorsProperties = {
   white: "#fff",
   light: "#f8f4f4",
   gray: "#6e6969",
+  lightGray: "#8e8981",
   danger: "#ff5252",
   yellow: "#ffe66d",
 };
