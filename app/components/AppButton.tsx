@@ -44,7 +44,6 @@ export default function AppButton({
 
   const handlePressedIn = () => {
     setPressed(true);
-    console.log(pressed);
   };
   const handlePressedOut = () => {
     setPressed(false);
@@ -64,7 +63,6 @@ export default function AppButton({
         fontWeight: "600",
       });
     }
-    console.log("yeeeeeeh!");
     if (color === "primary" || color === "secondary") {
       buttonTextStyle.push({ color: colors.white });
     }
