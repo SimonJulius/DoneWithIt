@@ -26,10 +26,19 @@ export interface AppPickerData {
 
 type Item = AppPickerData;
 
+export type PickerItemComponentProps = {
+  label?: string;
+  backgroundColor?: string;
+  icon?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+  onPress: () => void;
+};
+
 export type AppPickerProps = {
   placeholder?: string;
   showIconRight?: string;
   data?: AppPickerData[];
+  PickerItemComponent: React.ComponentType<PickerItemComponentProps>;
+  numColumns?: number;
   onSelect?: (item: AppPickerData) => void;
 } & TextProps &
   Pick<PressableProps, "onPress" | "onBlur"> &
@@ -44,6 +53,8 @@ const AppPicker = ({
   style,
   showIconRight,
   onSelect,
+  numColumns = 1,
+  PickerItemComponent,
   ...restProps
 }: AppPickerProps) => {
   const [showList, setShowList] = useState(false);
@@ -113,41 +124,18 @@ const AppPicker = ({
           <FlatList
             data={data}
             renderItem={({ item }) => (
-              <TouchableHighlight
+              <PickerItemComponent
+                label={item.label}
+                icon={item.icon}
+                backgroundColor={item.backgroundColor}
                 onPress={() => handItemSelection(item)}
-                underlayColor={colors.light}
-              >
-                <>
-                  <View
-                    style={{
-                      width: 100,
-                      marginBottom: 20,
-                      alignItems: "center",
-                    }}
-                  >
-                    <View
-                      style={[
-                        styles.listItemModalItemView,
-                        {
-                          backgroundColor: item.backgroundColor,
-                        },
-                      ]}
-                    >
-                      <MaterialCommunityIcons
-                        name={item.icon}
-                        size={35}
-                        color={colors.white}
-                      />
-                    </View>
-                    <AppText style={styles.listItemStyle}>{item.label}</AppText>
-                  </View>
-                </>
-              </TouchableHighlight>
+              />
             )}
             keyExtractor={keyExtractor}
-            // style={styles.listItemModalFlatlistStyle}
-            numColumns={3}
-            columnWrapperStyle={styles.listItemModalFlatlistStyle}
+            numColumns={numColumns}
+            columnWrapperStyle={
+              numColumns > 1 && styles.listItemModalFlatlistStyle
+            }
           />
         </AppSafeView>
       </Modal>
@@ -189,8 +177,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listItemModalFlatlistStyle: {
-    flexDirection: "row",
+    width: "100%",
+    paddingHorizontal: 10,
     justifyContent: "space-between",
-    alignItems: "center",
   },
 });

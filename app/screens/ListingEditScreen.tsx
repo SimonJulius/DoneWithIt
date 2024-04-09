@@ -9,6 +9,8 @@ import {
   AppFormPicker,
 } from "../components/forms";
 import { AppPickerData } from "../components/AppPicker";
+import CategoryPicker from "../components/forms/CategoryPicker";
+import PickerItem from "../components/forms/PickerItem";
 
 const listEditSchema = Yup.object({
   title: Yup.string().required().label("Title"),
@@ -110,6 +112,8 @@ const ListingEditScreen = () => {
           data={CATEGORIES}
           placeholder="Category"
           animationType="slide"
+          PickerItemComponent={CategoryPicker}
+          numColumns={3}
         />
 
         <AppFormField

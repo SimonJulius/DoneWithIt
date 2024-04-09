@@ -51,20 +51,20 @@ const ListingItem = ({
               source={image}
             />
             <View>
-              <AppText
-                numberOfLines={1}
-                style={styles.listinItemTitle}
-                ellipsizeMode="tail"
-              >
+              <AppText numberOfLines={1} style={styles.listinItemTitle}>
                 {title}
               </AppText>
-              <AppText numberOfLines={1} style={styles.listingItemSubtitle}>
+              <AppText numberOfLines={2} style={styles.listingItemSubtitle}>
                 {subtitle}
               </AppText>
             </View>
           </View>
           {hasRightIcon && (
-            <MaterialCommunityIcons name="chevron-right" size={20} />
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={20}
+              color={colors.gray}
+            />
           )}
         </View>
       </TouchableHighlight>
