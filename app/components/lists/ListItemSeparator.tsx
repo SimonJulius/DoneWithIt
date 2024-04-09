@@ -6,11 +6,11 @@ type SeperatorProps = {
   seperatorHeight?: number;
 };
 
-const AppListSeparator = ({ seperatorHeight }: SeperatorProps) => {
+const LisItemtSeparator = ({ seperatorHeight }: SeperatorProps) => {
   return <View style={[styles.seprator, { height: seperatorHeight }]} />;
 };
 
-export default AppListSeparator;
+export default LisItemtSeparator;
 
 const styles = StyleSheet.create({
   seprator: {

@@ -6,32 +6,69 @@ import {
   ViewProps,
   ImageProps,
   ImageSourcePropType,
+  TouchableHighlight,
 } from "react-native";
 import React from "react";
 import colors from "../../configs/colors";
-import AppText from "../AppText";
+import AppText, { AppTextProps } from "../AppText";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Swipeable, {
+  SwipeableProps,
+} from "react-native-gesture-handler/Swipeable";
 
 type ListingItemTypeProps = {
   image: ImageSourcePropType;
   title: string;
   subtitle: string;
+  hasRightIcon?: boolean;
+  renderRightAction?: () => void;
 };
 
-type ListingItemProps = ViewProps & ImageProps & ListingItemTypeProps;
+type ListingItemProps = ViewProps &
+  ImageProps &
+  SwipeableProps &
+  ListingItemTypeProps &
+  AppTextProps;
 
-const ListingItem = ({ title, subtitle, image, style }: ListingItemProps) => {
+const ListingItem = ({
+  title,
+  subtitle,
+  image,
+  style,
+  hasRightIcon,
+  renderRightActions,
+  onPress,
+  ...rest
+}: ListingItemProps) => {
   return (
-    <View style={StyleSheet.compose(style, styles.listingItemContainer)}>
-      <Image
-        style={styles.listingItemImage}
-        resizeMode="cover"
-        source={image}
-      />
-      <View>
-        <AppText style={styles.listinItemTitle}>{title}</AppText>
-        <AppText style={styles.listingItemSubtitle}>{subtitle}</AppText>
-      </View>
-    </View>
+    <Swipeable renderRightActions={renderRightActions}>
+      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+        <View style={StyleSheet.compose(style, styles.listingItemContainer)}>
+          <View style={styles.ListingItemImageText}>
+            <Image
+              style={styles.listingItemImage}
+              resizeMode="cover"
+              source={image}
+            />
+            <View>
+              <AppText
+                numberOfLines={1}
+                style={styles.listinItemTitle}
+                ellipsizeMode="tail"
+              >
+                {title}
+              </AppText>
+              <AppText numberOfLines={1} style={styles.listingItemSubtitle}>
+                {subtitle}
+              </AppText>
+            </View>
+          </View>
+          {hasRightIcon && (
+            <MaterialCommunityIcons name="chevron-right" size={20} />
+          )}
+        </View>
+      </TouchableHighlight>
+    </Swipeable>
   );
 };
 
@@ -42,7 +79,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    padding: 15,
+    justifyContent: "space-between",
+  },
+  ListingItemImageText: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexBasis: "70%",
   },
   listingItemImage: {
     width: 70,

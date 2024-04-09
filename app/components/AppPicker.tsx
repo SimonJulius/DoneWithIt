@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TextProps,
   TouchableHighlight,
+  View,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -17,21 +18,23 @@ import colors from "../configs/colors";
 import AppSafeView from "./AppSafeView";
 
 export interface AppPickerData {
-  id: string;
+  backgroundColor: string;
+  icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
   label: string;
-  description: string;
+  value: number;
 }
 
-type Items = string | AppPickerData;
+type Item = AppPickerData;
 
 export type AppPickerProps = {
   placeholder?: string;
   showIconRight?: string;
-  onSelect?: (item: AppPickerData | string) => void;
+  data?: AppPickerData[];
+  onSelect?: (item: AppPickerData) => void;
 } & TextProps &
   Pick<PressableProps, "onPress" | "onBlur"> &
   ModalProps &
-  Pick<FlatListProps<Items>, "data" | "keyExtractor">;
+  Pick<FlatListProps<Item>, "data" | "keyExtractor">;
 
 const AppPicker = ({
   placeholder,
@@ -49,13 +52,14 @@ const AppPicker = ({
     setShowList(true);
   }, [setShowList]);
 
-  const [selectedItem, setSelectedItem] = useState<Items>("");
+  const [selectedItem, setSelectedItem] = useState<Item>();
 
-  const handItemSelection = (item: Items) => {
+  const handItemSelection = (item: Item) => {
     setSelectedItem(item);
     setShowList(false);
     onSelect!(item);
   };
+
   return (
     <>
       <Pressable
@@ -89,17 +93,23 @@ const AppPicker = ({
         />
       </Pressable>
       <Modal animationType={animationType} visible={showList}>
-        <AppSafeView>
-          <MaterialCommunityIcons
-            onPress={() => setShowList(false)}
-            name="close"
-            size={20}
-            color={colors.gray}
+        <AppSafeView style={styles.listModalSafeArea}>
+          <Pressable
             style={{
-              alignSelf: "flex-end",
-              marginTop: 20,
+              alignSelf: "center",
+              marginBottom: 20,
             }}
-          />
+            onPress={() => setShowList(false)}
+          >
+            <AppText
+              style={{
+                color: colors.secondary,
+                fontSize: 20,
+              }}
+            >
+              Close
+            </AppText>
+          </Pressable>
           <FlatList
             data={data}
             renderItem={({ item }) => (
@@ -107,12 +117,37 @@ const AppPicker = ({
                 onPress={() => handItemSelection(item)}
                 underlayColor={colors.light}
               >
-                <AppText style={styles.listItemStyle}>
-                  {typeof item === "string" ? item : item.label}
-                </AppText>
+                <>
+                  <View
+                    style={{
+                      width: 100,
+                      marginBottom: 20,
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={[
+                        styles.listItemModalItemView,
+                        {
+                          backgroundColor: item.backgroundColor,
+                        },
+                      ]}
+                    >
+                      <MaterialCommunityIcons
+                        name={item.icon}
+                        size={35}
+                        color={colors.white}
+                      />
+                    </View>
+                    <AppText style={styles.listItemStyle}>{item.label}</AppText>
+                  </View>
+                </>
               </TouchableHighlight>
             )}
             keyExtractor={keyExtractor}
+            // style={styles.listItemModalFlatlistStyle}
+            numColumns={3}
+            columnWrapperStyle={styles.listItemModalFlatlistStyle}
           />
         </AppSafeView>
       </Modal>
@@ -138,9 +173,24 @@ const styles = StyleSheet.create({
   },
 
   listItemStyle: {
-    padding: 20,
+    // padding: 20,
   },
   selectedItem: {
     paddingHorizontal: 5,
+  },
+  listModalSafeArea: {
+    flex: 1,
+  },
+  listItemModalItemView: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  listItemModalFlatlistStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

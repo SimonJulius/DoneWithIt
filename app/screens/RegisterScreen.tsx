@@ -1,4 +1,4 @@
-import { GestureResponderEvent, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import React from "react";
 import AppSafeView from "../components/AppSafeView";
 import * as Yup from "yup";

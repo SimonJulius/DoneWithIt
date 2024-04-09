@@ -1,11 +1,10 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import colors from "../configs/colors";
 import AppSafeView from "../components/AppSafeView";
 import ListingItem from "../components/lists/ListingItem";
 import ListMenuItem from "../components/lists/ListMenuItem";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import AppListSeparator from "../components/lists/ListItemSeparator";
 
 type ItemsArray = {
   id: number;
