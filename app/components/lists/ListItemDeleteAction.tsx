@@ -1,12 +1,21 @@
 import React from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Pressable,
+  PressableProps,
+  ViewProps,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../configs/colors";
 
-function ListItemDeleteAction({ onPress }) {
+type MssagesScreenProps = PressableProps & ViewProps;
+
+function ListItemDeleteAction({ onPress }: MssagesScreenProps) {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <Pressable onPress={onPress}>
       <View style={styles.container}>
         <MaterialCommunityIcons
           name="trash-can"
@@ -14,7 +23,7 @@ function ListItemDeleteAction({ onPress }) {
           color={colors.white}
         />
       </View>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 }
 

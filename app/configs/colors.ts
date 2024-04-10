@@ -11,7 +11,7 @@ export interface AppColorsProperties {
   lightGray: string;
 }
 
-const AppColors: AppColorsProperties = {
+const colors: AppColorsProperties = {
   primary: "#fc5c65",
   secondary: "#4ecdc4",
   primary100: "#FDA0A5",
@@ -24,4 +24,4 @@ const AppColors: AppColorsProperties = {
   yellow: "#ffe66d",
 };
 
-export default AppColors;
+export default colors;

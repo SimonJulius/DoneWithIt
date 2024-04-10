@@ -10,13 +10,14 @@ import {
 } from "../components/forms";
 import { AppPickerData } from "../components/AppPicker";
 import CategoryPicker from "../components/forms/CategoryPicker";
-import PickerItem from "../components/forms/PickerItem";
+import FormImagePicker from "../components/forms/FormImagePicker";
 
 const listEditSchema = Yup.object({
   title: Yup.string().required().label("Title"),
   price: Yup.number().min(1).max(10000).required().label("Price"),
-  category: Yup.object().required().nullable().label("Category"),
+  categories: Yup.object().required().nullable().label("Category"),
   description: Yup.string().required().min(5).label("Description"),
+  images: Yup.array(Yup.string()).min(1).required(),
 });
 
 const CATEGORIES: AppPickerData[] = [
@@ -80,15 +81,17 @@ const ListingEditScreen = () => {
   return (
     <AppSafeView>
       <AppForm
-        initialValues={{ title: "", price: 0, category: null, description: "" }}
+        initialValues={{
+          images: [],
+          title: "",
+          price: 0,
+          categories: null,
+          description: "",
+        }}
         onSubmit={(value) => console.log(value)}
         validationSchema={listEditSchema}
       >
-        <Image
-          style={styles.logo}
-          source={require("../assets/icons/bitmaps/logo-red.png")}
-        />
-
+        <FormImagePicker name="images" style={styles.imagePicker} />
         <AppFormField
           name="title"
           autoCapitalize="words"
@@ -141,12 +144,8 @@ const ListingEditScreen = () => {
 export default ListingEditScreen;
 
 const styles = StyleSheet.create({
-  logo: {
-    height: 80,
-    width: 80,
-    alignSelf: "center",
+  imagePicker: {
     marginBottom: 20,
-    marginTop: 50,
   },
   submitButton: {
     marginTop: 20,
