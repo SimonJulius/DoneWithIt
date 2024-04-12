@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import AppSafeView from "../components/AppSafeView";
 import * as Yup from "yup";
@@ -11,13 +11,23 @@ import {
 import { AppPickerData } from "../components/AppPicker";
 import CategoryPicker from "../components/forms/CategoryPicker";
 import FormImagePicker from "../components/forms/FormImagePicker";
+import useLocation from "../hooks/useLocation";
 
 const listEditSchema = Yup.object({
   title: Yup.string().required().label("Title"),
   price: Yup.number().min(1).max(10000).required().label("Price"),
   categories: Yup.object().required().nullable().label("Category"),
   description: Yup.string().required().min(5).label("Description"),
-  images: Yup.array(Yup.string()).min(1).required(),
+  images: Yup.array()
+    .of(
+      Yup.object().shape({
+        id: Yup.string(),
+        uri: Yup.string(),
+      })
+    )
+    .required()
+    .min(1),
+  location: Yup.object(),
 });
 
 const CATEGORIES: AppPickerData[] = [
@@ -78,6 +88,9 @@ const CATEGORIES: AppPickerData[] = [
 ];
 
 const ListingEditScreen = () => {
+  const location = useLocation();
+  console.log(location);
+
   return (
     <AppSafeView>
       <AppForm
@@ -87,6 +100,7 @@ const ListingEditScreen = () => {
           price: 0,
           categories: null,
           description: "",
+          location,
         }}
         onSubmit={(value) => console.log(value)}
         validationSchema={listEditSchema}
