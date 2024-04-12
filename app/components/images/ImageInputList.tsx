@@ -5,8 +5,9 @@ import {
   FlatList,
   ViewProps,
   Pressable,
+  FlatListComponent,
 } from "react-native";
-import React, { useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 import AppImageInput from "./AppImageInput";
@@ -36,13 +37,21 @@ const ImageInputList = ({
   const handlePressedOut = () => {
     setPressed(false);
   };
+
+  const imageListFlatList = useRef<FlatList<ImagesType>>(null);
+
+  const handleAddImage = () => {
+    return imageListFlatList.current?.scrollToEnd();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.imageList}>
         {imageUris && imageUris[0] && (
           <FlatList
             data={imageUris}
+            ref={imageListFlatList}
             keyExtractor={(item) => item.id}
+            onViewableItemsChanged={handleAddImage}
             renderItem={({ item }) => {
               return (
                 <Pressable
