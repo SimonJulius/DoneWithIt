@@ -9,31 +9,23 @@ import {
 import React from "react";
 import colors from "../configs/colors";
 import AppText from "../components/AppText";
+import { NativeRouteProp } from "../navigation/types";
 
-type ListingDetailProps = {
-  image: ImageSourcePropType;
-  title: string;
-  subtitle: string;
+type ListingScreenProps = {
+  route?: NativeRouteProp;
 };
 
-type ListingDetailScreenProps = ViewProps & ListingDetailProps;
-
-const ListingDetailScreen = ({
-  image,
-  title,
-  subtitle,
-  children,
-}: ListingDetailScreenProps) => {
+const ListingDetailScreen = ({ route }: ListingScreenProps) => {
+  const item = route!.params;
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image resizeMode="cover" source={image} style={styles.image} />
+        <Image resizeMode="cover" source={item?.image} style={styles.image} />
         <View style={styles.imageDetailView}>
-          <AppText style={styles.detailsTitle}>{title}</AppText>
-          <AppText style={styles.detailsSubTitle}>{subtitle}</AppText>
+          <AppText style={styles.detailsTitle}>{item?.title}</AppText>
+          <AppText style={styles.detailsSubTitle}>{item?.subtitle}</AppText>
         </View>
       </View>
-      <ScrollView style={styles.listingView}>{children}</ScrollView>
     </View>
   );
 };

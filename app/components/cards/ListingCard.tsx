@@ -6,6 +6,8 @@ import {
   ViewProps,
   Image,
   ImageSourcePropType,
+  Pressable,
+  PressableProps,
 } from "react-native";
 import React from "react";
 import AppText from "../AppText";
@@ -17,11 +19,11 @@ type ListingImageProps = {
   subTitle: string;
 };
 
-type ListingCardProps = ViewProps & ImageProps & ListingImageProps;
+type ListingCardProps = PressableProps & ImageProps & ListingImageProps;
 
-const ListingCard = ({ image, title, subTitle }: ListingCardProps) => {
+const ListingCard = ({ image, title, subTitle, onPress }: ListingCardProps) => {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.imageView}>
         <Image resizeMode="cover" source={image} style={styles.image} />
       </View>
@@ -30,7 +32,7 @@ const ListingCard = ({ image, title, subTitle }: ListingCardProps) => {
 
         <AppText style={styles.detailsSubTitle}>{subTitle}</AppText>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

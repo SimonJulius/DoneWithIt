@@ -1,38 +1,22 @@
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import colors from "../configs/colors";
 import AppSafeView from "../components/AppSafeView";
 import ListingItem from "../components/lists/ListingItem";
 import ListMenuItem from "../components/lists/ListMenuItem";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AccountNavigatorParams } from "../navigation/types";
+import Routes from "../routes/route-constants";
 
-type ItemsArray = {
-  id: number;
-  iconName: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
-  iconViewBackground: string;
-  message: string;
-};
-const ITEMS_ARRAY: ItemsArray[] = [
-  {
-    id: 1,
-    iconName: "format-list-bulleted",
-    iconViewBackground: colors.primary,
-    message: "My Listings",
-  },
-  {
-    id: 2,
-    iconName: "email",
-    iconViewBackground: colors.secondary,
-    message: "My Messages",
-  },
-];
-const logOut = {
-  id: 3,
-  iconName: "logout",
-  iconViewBackground: colors.yellow,
-};
+interface MyAccountProps {
+  navigation: NativeStackNavigationProp<AccountNavigatorParams>;
+}
 
-const MyAccountScreen = () => {
+const MyAccountScreen = ({ navigation }: MyAccountProps) => {
+  const handleMessageClick = () => {
+    navigation.navigate(Routes.MESSAGES);
+  };
   return (
     <AppSafeView style={styles.container}>
       <ListingItem
@@ -55,6 +39,7 @@ const MyAccountScreen = () => {
           iconName={"email"}
           size={20}
           iconViewBackground={colors.secondary}
+          onPress={handleMessageClick}
         >
           My Messages
         </ListMenuItem>

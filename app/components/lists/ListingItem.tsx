@@ -41,7 +41,19 @@ const ListingItem = ({
   ...rest
 }: ListingItemProps) => {
   return (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable
+      renderRightActions={renderRightActions}
+      friction={2}
+      enableTrackpadTwoFingerGesture
+      leftThreshold={30}
+      rightThreshold={40}
+      onSwipeableOpen={(direction) => {
+        console.log(`Opening swipeable from the ${direction}`);
+      }}
+      onSwipeableClose={(direction) => {
+        console.log(`Closing swipeable to the ${direction}`);
+      }}
+    >
       <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
         <View style={StyleSheet.compose(style, styles.listingItemContainer)}>
           <View style={styles.ListingItemImageText}>

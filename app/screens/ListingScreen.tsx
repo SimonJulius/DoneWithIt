@@ -4,6 +4,8 @@ import ListingCard from "../components/cards/ListingCard";
 import AppSafeView from "../components/AppSafeView";
 import colors from "../configs/colors";
 import AppListSeparator from "../components/lists/ListItemSeparator";
+import { NavigationProp } from "../navigation/types";
+import Routes from "../routes/route-constants";
 
 const itemsToBeSold = [
   {
@@ -14,13 +16,17 @@ const itemsToBeSold = [
   },
   {
     id: 2,
-    image: require("../assets/images/jacket.jpg"),
+    image: require("../assets/images/chair.jpg"),
     title: "Red Jacket for sale!",
     subtitle: "$100",
   },
 ];
 
-const ListingScreen = () => {
+type ListingScreenProps = {
+  navigation: NavigationProp;
+};
+
+const ListingScreen = ({ navigation }: ListingScreenProps) => {
   return (
     <AppSafeView style={styles.container}>
       <FlatList
@@ -31,6 +37,7 @@ const ListingScreen = () => {
             image={item.image}
             title={item.title}
             subTitle={item.subtitle}
+            onPress={() => navigation.navigate(Routes.LISTING_DETAILS, item)}
           />
         )}
         ItemSeparatorComponent={() => <AppListSeparator seperatorHeight={20} />}
@@ -46,6 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light,
     paddingHorizontal: 20,
-    borderWidth: 4,
+    paddingTop: 20,
   },
 });

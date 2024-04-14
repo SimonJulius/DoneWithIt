@@ -18,11 +18,6 @@ const LoginScreen = () => {
         onSubmit={(value) => console.log(value)}
         validationSchema={registerSchema}
       >
-        <Image
-          style={styles.logo}
-          source={require("../assets/icons/bitmaps/logo-red.png")}
-        />
-
         <AppFormField
           name="name"
           autoCapitalize="words"

@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-  ViewProps,
-} from "react-native";
+import { StyleSheet, TouchableHighlight, View, ViewProps } from "react-native";
 import React from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import AppText from "../AppText";
@@ -34,9 +28,14 @@ const ListMenuItem = ({
           iconViewBackground={iconViewBackground}
           iconName={iconName}
         />
-        <View>
+        <View style={styles.textView}>
           <AppText style={styles.textContent}>{children}</AppText>
         </View>
+        <MaterialCommunityIcons
+          style={styles.rightIcon}
+          name="chevron-right"
+          size={25}
+        />
       </View>
     </TouchableHighlight>
   );
@@ -57,5 +56,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: colors.black,
+  },
+  textView: {
+    marginLeft: 10,
+  },
+  rightIcon: {
+    marginLeft: "auto",
   },
 });

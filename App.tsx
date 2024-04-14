@@ -1,10 +1,20 @@
 import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import AppSafeView from "./app/components/AppSafeView";
-import ListingEditScreen from "./app/screens/ListingEditScreen";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import { AppNavigationTheme } from "./app/navigation/NavigationTheme";
+import HomeNavigator from "./app/navigation/HomeNavigator";
 
 export default function App() {
-  return <ListingEditScreen />;
+  return (
+    <NavigationContainer theme={AppNavigationTheme}>
+      <GestureHandlerRootView>
+        {/* <AuthNavigator /> */}
+        <HomeNavigator />
+      </GestureHandlerRootView>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -6,11 +6,24 @@ import {
   View,
   Image,
   Platform,
+  ViewProps,
 } from "react-native";
 import React from "react";
-import AppButton from "../components/AppButton";
 
-export default function WelcomeScreen() {
+import AppButton from "../components/AppButton";
+import { NavigationProp } from "../navigation/types";
+import Routes from "../routes/route-constants";
+
+type WelcomeScreenProps = {
+  navigation: NavigationProp;
+};
+export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
+  const handleLogin = () => {
+    navigation.navigate(Routes.LOGIN);
+  };
+  const handleRegister = () => {
+    navigation.navigate(Routes.REGISTER);
+  };
   return (
     <ImageBackground
       style={styles.welcomeImage}
@@ -26,12 +39,12 @@ export default function WelcomeScreen() {
       </View>
 
       <View style={styles.login}>
-        <AppButton size="md" color="primary">
+        <AppButton size="md" color="primary" onPress={handleLogin}>
           Login
         </AppButton>
       </View>
       <View style={styles.register}>
-        <AppButton size="md" color="secondary">
+        <AppButton size="md" color="secondary" onPress={handleRegister}>
           Register
         </AppButton>
       </View>
