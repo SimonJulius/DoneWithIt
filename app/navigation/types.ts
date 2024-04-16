@@ -1,6 +1,7 @@
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
+import { ListingsTypes } from "../models/listins";
 
 export type AuthNavigatorParams = {
   Welcome: undefined;
@@ -16,12 +17,7 @@ export type HomeNavigatorParams = {
 
 export type FeedNavigatorParams = {
   Listing: undefined;
-  ListingDetail: {
-    id: number;
-    image: any;
-    title: string;
-    subtitle: string;
-  };
+  ListingDetail: ListingsTypes;
 };
 
 export type AccountNavigatorParams = {

@@ -20,10 +20,14 @@ const ListingDetailScreen = ({ route }: ListingScreenProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
-        <Image resizeMode="cover" source={item?.image} style={styles.image} />
+        <Image
+          resizeMode="cover"
+          source={{ uri: item?.images[0].url }}
+          style={styles.image}
+        />
         <View style={styles.imageDetailView}>
           <AppText style={styles.detailsTitle}>{item?.title}</AppText>
-          <AppText style={styles.detailsSubTitle}>{item?.subtitle}</AppText>
+          <AppText style={styles.detailsSubTitle}>${item?.price}</AppText>
         </View>
       </View>
     </View>

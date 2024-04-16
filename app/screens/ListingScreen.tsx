@@ -1,47 +1,67 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import ListingCard from "../components/cards/ListingCard";
 import AppSafeView from "../components/AppSafeView";
 import colors from "../configs/colors";
 import AppListSeparator from "../components/lists/ListItemSeparator";
 import { NavigationProp } from "../navigation/types";
 import Routes from "../routes/route-constants";
-
-const itemsToBeSold = [
-  {
-    id: 1,
-    image: require("../assets/images/jacket.jpg"),
-    title: "Red Jacket for sale!",
-    subtitle: "$100",
-  },
-  {
-    id: 2,
-    image: require("../assets/images/chair.jpg"),
-    title: "Red Jacket for sale!",
-    subtitle: "$100",
-  },
-];
+import listingsApi from "../api/listings";
+import { ListingsTypes } from "../models/listins";
+import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
 
 type ListingScreenProps = {
   navigation: NavigationProp;
 };
 
 const ListingScreen = ({ navigation }: ListingScreenProps) => {
+  const [listings, setListings] = useState<ListingsTypes[]>([]);
+  const [hasError, setHasError] = useState(false);
+  const getApiListing = async () => {
+    const response = await listingsApi.getListings();
+    if (!response.ok) return setHasError(true);
+
+    setHasError(false);
+    setListings(response.data as ListingsTypes[]);
+  };
+
+  useEffect(() => {
+    getApiListing();
+  }, []);
   return (
     <AppSafeView style={styles.container}>
-      <FlatList
-        keyExtractor={(item) => item.id.toString()}
-        data={itemsToBeSold}
-        renderItem={({ item }) => (
-          <ListingCard
-            image={item.image}
-            title={item.title}
-            subTitle={item.subtitle}
-            onPress={() => navigation.navigate(Routes.LISTING_DETAILS, item)}
+      {!hasError ? (
+        <FlatList
+          keyExtractor={(item) => item.id.toString()}
+          data={listings}
+          renderItem={({ item }) => (
+            <ListingCard
+              imgUrl={item.images[0].url}
+              title={item.title}
+              price={item.price}
+              onPress={() => navigation.navigate(Routes.LISTING_DETAILS, item)}
+            />
+          )}
+          ItemSeparatorComponent={() => (
+            <AppListSeparator seperatorHeight={20} />
+          )}
+        />
+      ) : (
+        <>
+          <AppText>Couldn't retrieved button</AppText>
+          <AppButton
+            title="Retry"
+            onPress={getApiListing}
+            size="md"
+            color="primary"
+            style={{
+              marginTop: 10,
+            }}
           />
-        )}
-        ItemSeparatorComponent={() => <AppListSeparator seperatorHeight={20} />}
-      />
+        </>
+      )}
     </AppSafeView>
   );
 };

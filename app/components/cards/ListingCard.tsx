@@ -14,23 +14,27 @@ import AppText from "../AppText";
 import colors from "../../configs/colors";
 
 type ListingImageProps = {
-  image: ImageSourcePropType;
+  imgUrl: string;
   title: string;
-  subTitle: string;
+  price: number;
 };
 
 type ListingCardProps = PressableProps & ImageProps & ListingImageProps;
 
-const ListingCard = ({ image, title, subTitle, onPress }: ListingCardProps) => {
+const ListingCard = ({ imgUrl, title, price, onPress }: ListingCardProps) => {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.imageView}>
-        <Image resizeMode="cover" source={image} style={styles.image} />
+        <Image
+          resizeMode="cover"
+          source={{ uri: imgUrl }}
+          style={styles.image}
+        />
       </View>
       <View style={styles.detailsView}>
         <AppText style={styles.detailsTitle}>{title}</AppText>
 
-        <AppText style={styles.detailsSubTitle}>{subTitle}</AppText>
+        <AppText style={styles.detailsSubTitle}>${price}</AppText>
       </View>
     </Pressable>
   );

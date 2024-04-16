@@ -6,6 +6,7 @@
     "orientation": "default",
     "icon": "./app/assets/icons/bitmaps/icon.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "image": "./app/assets/icons/bitmaps/splash.png",
       "resizeMode": "contain",
