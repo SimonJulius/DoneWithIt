@@ -11,6 +11,7 @@ import listingsApi from "../api/listings";
 import { ListingsTypes } from "../models/listins";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 type ListingScreenProps = {
   navigation: NavigationProp;
@@ -19,12 +20,19 @@ type ListingScreenProps = {
 const ListingScreen = ({ navigation }: ListingScreenProps) => {
   const [listings, setListings] = useState<ListingsTypes[]>([]);
   const [hasError, setHasError] = useState(false);
-  const getApiListing = async () => {
-    const response = await listingsApi.getListings();
-    if (!response.ok) return setHasError(true);
+  const [loading, setLoading] = useState(false);
 
-    setHasError(false);
-    setListings(response.data as ListingsTypes[]);
+  const getApiListing = async () => {
+    setLoading(true);
+    setTimeout(async () => {
+      const response = await listingsApi.getListings();
+      setLoading(false);
+
+      if (!response.ok) return setHasError(true);
+
+      setHasError(false);
+      setListings(response.data as ListingsTypes[]);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -32,6 +40,7 @@ const ListingScreen = ({ navigation }: ListingScreenProps) => {
   }, []);
   return (
     <AppSafeView style={styles.container}>
+      <ActivityIndicator visible={loading} />
       {!hasError ? (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
