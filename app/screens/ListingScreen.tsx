@@ -12,36 +12,28 @@ import { ListingsTypes } from "../models/listins";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
 import ActivityIndicator from "../components/ActivityIndicator";
+import useApi from "../hooks/useApi";
 
 type ListingScreenProps = {
   navigation: NavigationProp;
 };
 
 const ListingScreen = ({ navigation }: ListingScreenProps) => {
-  const [listings, setListings] = useState<ListingsTypes[]>([]);
-  const [hasError, setHasError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const getApiListing = async () => {
-    setLoading(true);
-    setTimeout(async () => {
-      const response = await listingsApi.getListings();
-      setLoading(false);
-
-      if (!response.ok) return setHasError(true);
-
-      setHasError(false);
-      setListings(response.data as ListingsTypes[]);
-    }, 2000);
-  };
+  const {
+    data: listings,
+    loading,
+    error,
+    request: getListings,
+  } = useApi(listingsApi.getListings);
 
   useEffect(() => {
-    getApiListing();
+    getListings();
+    console.log("listings: ", listings);
   }, []);
   return (
     <AppSafeView style={styles.container}>
       <ActivityIndicator visible={loading} />
-      {!hasError ? (
+      {!error ? (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
           data={listings}
@@ -62,7 +54,7 @@ const ListingScreen = ({ navigation }: ListingScreenProps) => {
           <AppText>Couldn't retrieved button</AppText>
           <AppButton
             title="Retry"
-            onPress={getApiListing}
+            onPress={getListings}
             size="md"
             color="primary"
             style={{

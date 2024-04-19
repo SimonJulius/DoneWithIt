@@ -45,10 +45,22 @@ const FormImagePicker = ({ name, ...rest }: FormImagePickerProps) => {
           if (Array.isArray(prev)) {
             return [
               ...prev,
-              { uri: assets[0].uri, id: (prev.length + 1).toString() },
+              {
+                uri: assets[0].uri,
+                id: (prev.length + 1).toString(),
+                name: name! + prev.length + 1,
+                type: "image/jpeg",
+              },
             ];
           } else {
-            return [{ uri: assets[0].uri, id: "1" }];
+            return [
+              {
+                uri: assets[0].uri,
+                id: "1",
+                name: name! + 1,
+                type: "image/jpeg",
+              },
+            ];
           }
         });
       }
@@ -62,7 +74,6 @@ const FormImagePicker = ({ name, ...rest }: FormImagePickerProps) => {
   }, [images]);
 
   const onRemoveImage = (imageId: string) => {
-    console.log("Image Id: ", imageId);
     setImages(images?.filter((image) => image.id !== imageId));
   };
 

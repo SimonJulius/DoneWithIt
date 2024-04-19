@@ -12,17 +12,22 @@ import { AppPickerData } from "../components/AppPicker";
 import CategoryPicker from "../components/forms/CategoryPicker";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
+import useApi from "../hooks/useApi";
+import listingApis from "../api/listings";
+import { ListingPosts } from "../models/listins";
 
 const listEditSchema = Yup.object({
   title: Yup.string().required().label("Title"),
   price: Yup.number().min(1).max(10000).required().label("Price"),
-  categories: Yup.object().required().nullable().label("Category"),
-  description: Yup.string().required().min(5).label("Description"),
+  category: Yup.object().required().nullable().label("Category"),
+  description: Yup.string().min(5).label("Description"),
   images: Yup.array()
     .of(
       Yup.object().shape({
         id: Yup.string(),
         uri: Yup.string(),
+        name: Yup.string(),
+        type: Yup.string(),
       })
     )
     .required()
@@ -89,7 +94,15 @@ const CATEGORIES: AppPickerData[] = [
 
 const ListingEditScreen = () => {
   const location = useLocation();
-  console.log(location);
+
+  const handleSubmit = async (listing: ListingPosts) => {
+    const result = await listingApis.postListing(listing);
+    if (!result.ok) {
+      return alert("Could not save your listings");
+    }
+
+    alert("Your listings saved successfully");
+  };
 
   return (
     <AppSafeView>
@@ -98,11 +111,11 @@ const ListingEditScreen = () => {
           images: [],
           title: "",
           price: 0,
-          categories: null,
+          category: null,
           description: "",
           location,
         }}
-        onSubmit={(value) => console.log(value)}
+        onSubmit={(value) => handleSubmit(value as unknown as ListingPosts)}
         validationSchema={listEditSchema}
       >
         <FormImagePicker name="images" style={styles.imagePicker} />
@@ -125,7 +138,7 @@ const ListingEditScreen = () => {
         />
         <AppFormPicker
           style={styles.categoryField}
-          name="categories"
+          name="category"
           data={CATEGORIES}
           placeholder="Category"
           animationType="slide"

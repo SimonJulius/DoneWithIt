@@ -16,6 +16,8 @@ import colors from "../../configs/colors";
 export interface ImagesType {
   uri: string;
   id: string;
+  name: string;
+  type: string;
 }
 
 interface ImageInputListProps extends ViewProps {

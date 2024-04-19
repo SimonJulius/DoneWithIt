@@ -15,3 +15,24 @@ export interface ListingsTypes {
     longitude: number;
   };
 }
+
+type ImageMimeType = "image/jpeg" | "image/jpg" | "image/png";
+export interface ListingPosts {
+  title: string;
+  images: [
+    {
+      name: string;
+      type: ImageMimeType;
+      uri: string;
+    }
+  ];
+  price: number;
+  category: {
+    value: number;
+  };
+  description?: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
+}
